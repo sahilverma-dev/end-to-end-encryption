@@ -7,12 +7,24 @@ export interface AuthContextReturnType {
 }
 
 export interface UserType {
-  uid: string;
-  displayName: string;
-  photoURL: string;
+  id: string;
+  name: string;
+  avatar: string;
   email: string;
 }
 
 export interface AuthProviderType {
   children: ReactNode;
+}
+
+export interface MessageType {
+  id: string;
+  user: UserType;
+  message: string;
+  timestamp: unknown;
+}
+
+export interface TopLoaderContextReturnType {
+  start: () => void;
+  stop: () => void;
 }

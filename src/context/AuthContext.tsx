@@ -25,7 +25,12 @@ const AuthProvider = ({ children }: AuthProviderType) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user: any) => {
-      setUser(user);
+      setUser(user?{
+        id: user?.uid,
+        name: user?.displayName,
+        avatar: user?.photoURL,
+        email: user?.email,
+      }:null);
       setLoading(true);
     });
   }, []);

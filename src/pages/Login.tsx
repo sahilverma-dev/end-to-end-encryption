@@ -1,5 +1,13 @@
+import Page from "../components/Page";
+import { useAuth } from "../context/AuthContext";
+
 const Login = () => {
-  return <div>Login</div>;
+  const { login } = useAuth();
+  return (
+    <Page>
+      <button onClick={login}>Login</button>
+    </Page>
+  );
 };
 
 export default Login;
