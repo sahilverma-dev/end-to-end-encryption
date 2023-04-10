@@ -5,12 +5,14 @@ import "./index.css";
 import { AuthProvider } from "./context/AuthContext";
 import { BrowserRouter } from "react-router-dom";
 import { TopLoaderProvider } from "./context/TopLoaderContext";
+import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <AuthProvider>
       <BrowserRouter>
         <TopLoaderProvider>
+          <Toaster />
           <App />
         </TopLoaderProvider>
       </BrowserRouter>

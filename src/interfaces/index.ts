@@ -1,7 +1,8 @@
+import { User } from "firebase/auth";
 import { ReactNode } from "react";
 
 export interface AuthContextReturnType {
-  user: UserType | null;
+  user: User | null;
   login: () => void;
   logout: () => void;
 }

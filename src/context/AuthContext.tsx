@@ -1,5 +1,6 @@
 import {
   GoogleAuthProvider,
+  User,
   onAuthStateChanged,
   signInWithPopup,
   signOut,
@@ -11,26 +12,17 @@ import Loading from "../components/Loading";
 import { auth, firestore } from "../firebase/config";
 
 // interfaces
-import {
-  AuthContextReturnType,
-  AuthProviderType,
-  UserType,
-} from "../interfaces";
+import { AuthContextReturnType, AuthProviderType } from "../interfaces";
 
 const AuthContext = createContext<AuthContextReturnType | null>(null);
 
 const AuthProvider = ({ children }: AuthProviderType) => {
-  const [user, setUser] = useState<UserType | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user: any) => {
-      setUser(user?{
-        id: user?.uid,
-        name: user?.displayName,
-        avatar: user?.photoURL,
-        email: user?.email,
-      }:null);
+    onAuthStateChanged(auth, (user) => {
+      setUser(user);
       setLoading(true);
     });
   }, []);

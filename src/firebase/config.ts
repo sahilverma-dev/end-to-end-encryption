@@ -1,22 +1,20 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
 
-const firebaseConfig: any = {
-  apiKey: "AIzaSyDlFSyMqJ1IZGmrOzOvO4tpRO6hc2gyGPw",
-  authDomain: "testing-edf48.firebaseapp.com",
-  databaseURL: "https://testing-edf48-default-rtdb.firebaseio.com",
-  projectId: "testing-edf48",
-  storageBucket: "testing-edf48.appspot.com",
-  messagingSenderId: "322971047410",
-  appId: "1:322971047410:web:b14b7987e49e1011ef876b",
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_DATABASE_URL,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGIN_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
 
 const firestore = getFirestore(app);
 const auth = getAuth(app);
-if (app) getAnalytics(app);
 
 export { auth, firestore };

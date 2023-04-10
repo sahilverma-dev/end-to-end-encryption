@@ -1,6 +1,6 @@
 import { useState, FormEvent } from "react";
 
-import { item } from "../../constants/variants";
+import { item } from "../constants/variants";
 import { UserType } from "../interfaces";
 
 import { motion } from "framer-motion";

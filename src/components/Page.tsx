@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
-import { page } from "../../constants/variants";
+import { page } from "../constants/variants";
 
 interface PropsType {
   children: ReactNode;

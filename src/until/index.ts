@@ -1,68 +1,24 @@
-export async function generateKeyPair() {
-  const keyPair = await crypto.subtle.generateKey(
-    {
-      name: "RSA-OAEP",
-      modulusLength: 2048,
-      publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-      hash: { name: "SHA-256" },
-    },
-    true,
-    ["encrypt", "decrypt"]
-  );
+import toast from "react-hot-toast";
+import CryptoJS from "crypto-js";
 
-  const publicKey = await crypto.subtle.exportKey("jwk", keyPair.publicKey);
-  const privateKey = await crypto.subtle.exportKey("jwk", keyPair.privateKey);
+const ENCRYPTION_SECRET = import.meta.env.VITE_SECRET as string;
 
-  return { publicKey, privateKey };
+export function encryptString(plaintext: string): string {
+  const ciphertext = CryptoJS.AES.encrypt(
+    plaintext,
+    ENCRYPTION_SECRET
+  ).toString();
+  return ciphertext;
 }
 
-export async function encryptMessage(publicKey: object, message: string) {
-  const publicKeyArray = new Uint8Array(Object.values(publicKey));
-  const importedKey = await crypto.subtle.importKey(
-    "spki",
-    publicKeyArray,
-    {
-      name: "RSA-OAEP",
-      hash: { name: "SHA-256" },
-    },
-    false,
-    ["encrypt"]
-  );
-
-  const encrypted = await crypto.subtle.encrypt(
-    {
-      name: "RSA-OAEP",
-    },
-    importedKey,
-    new TextEncoder().encode(message)
-  );
-
-  return new Uint8Array(encrypted);
-}
-
-export async function decryptMessage(
-  privateKey: object,
-  encryptedMessage: BufferSource
-) {
-  const privateKeyArray = new Uint8Array(Object.values(privateKey));
-  const importedKey = await crypto.subtle.importKey(
-    "pkcs8",
-    privateKeyArray,
-    {
-      name: "RSA-OAEP",
-      hash: { name: "SHA-256" },
-    },
-    false,
-    ["decrypt"]
-  );
-
-  const decrypted = await crypto.subtle.decrypt(
-    {
-      name: "RSA-OAEP",
-    },
-    importedKey,
-    encryptedMessage
-  );
-
-  return new TextDecoder().decode(new Uint8Array(decrypted));
+export function decryptString(ciphertext: string): string {
+  try {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, ENCRYPTION_SECRET);
+    const plaintext = bytes.toString(CryptoJS.enc.Utf8);
+    return plaintext;
+  } catch (error) {
+    console.error("Failed to decrypt string:", error);
+    toast.error("Failed to decrypt string");
+    return "Failed to decrypt string";
+  }
 }
